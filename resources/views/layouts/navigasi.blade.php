@@ -8,7 +8,6 @@
     <title>@yield("title")</title>
 
     <style>
-      /* Mengubah Background Default ke Krem Hangat */
       body {
           background-color: #EFE9E3; /* Warna pilihanmu */
           color: #2D2D2D; /* Teks gelap agar kontras dengan background terang */
@@ -62,7 +61,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand font-weight-bold" href="/">NSP</a>
+            <a class="navbar-brand font-weight-bold" href="/">Dashboard</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
