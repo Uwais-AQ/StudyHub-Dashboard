@@ -3,95 +3,98 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\resource; 
+use App\Models\Resource;
 
 class SourcesController extends Controller
 {
     /**
+     * Menampilkan daftar sumber belajar milik user yang login.
      */
-    public function Sources(Request $request) 
+    public function Sources(Request $request)
     {
         $sortOrder = $request->get('sort', 'asc');
 
-        // Filter: Hanya ambil data yang user_id-nya sesuai 
-        $sources = resource::where('user_id', auth()->id())
+        $sources = Resource::where('user_id', auth()->id())
                            ->orderBy('nama', $sortOrder)
                            ->get();
 
         return view("sources", [
-            'resources' => $sources, 
+            'resources' => $sources,
             'currentSort' => $sortOrder
         ]);
     }
 
     /**
-     * FUNGSI YANG TADI HILANG: Menampilkan halaman form tambah data.
+     * Menampilkan halaman form tambah data.
      */
     public function create()
     {
-        return view("sources_create"); 
+        return view("sources_create");
     }
 
     /**
-     * B - Build: Menyimpan data baru ke database[cite: 52].
+     * Menyimpan data baru ke database.
      */
     public function store(Request $request)
     {
-        // 1. Validasi input agar database tetap bersih[cite: 50].
-        $request->validate([
-            'nama' => 'required',
-            'deskripsi' => 'required',
-            'sumber' => 'required'
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'required|string|max:1000',
+            'sumber' => 'required|url|max:500',
         ]);
 
-        // 2. Simpan dengan menyertakan user_id (Data Association)[cite: 107].
-        resource::create([
+        Resource::create([
             'user_id'   => auth()->id(),
-            'nama'      => $request->nama,
-            'deskripsi' => $request->deskripsi,
-            'sumber'    => $request->sumber,
+            'nama'      => $validated['nama'],
+            'deskripsi' => $validated['deskripsi'],
+            'sumber'    => $validated['sumber'],
         ]);
 
         return redirect('/Sources')->with('success', 'Sumber berhasil ditambahkan!');
     }
 
+    /**
+     * Menampilkan halaman edit data.
+     */
     public function edit($id)
     {
-        // Pastikan user tidak bisa mengedit data orang lain lewat ID di URL[cite: 112, 117].
-        $resource = resource::where('id', $id)
+        $resource = Resource::where('id', $id)
                             ->where('user_id', auth()->id())
                             ->firstOrFail();
-                            
+
         return view("sources_edit", ['resource' => $resource]);
     }
 
+    /**
+     * Memperbarui data yang sudah ada.
+     */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama' => 'required',
-            'deskripsi' => 'required',
-            'sumber' => 'required'
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'required|string|max:1000',
+            'sumber' => 'required|url|max:500',
         ]);
 
-        $item = resource::where('id', $id)
+        $item = Resource::where('id', $id)
                         ->where('user_id', auth()->id())
                         ->firstOrFail();
 
         $item->update([
-            'nama' => $request->nama,
-            'deskripsi' => $request->deskripsi,
-            'sumber' => $request->sumber,
+            'nama' => $validated['nama'],
+            'deskripsi' => $validated['deskripsi'],
+            'sumber' => $validated['sumber'],
         ]);
 
         return redirect('/Sources')->with('success', 'Data berhasil diupdate!');
     }
 
     /**
-     * D - Debug: Menangani penghapusan data secara aman[cite: 55].
+     * Menghapus data secara aman.
      */
     public function destroy($id)
     {
-        $item = resource::where('id', $id)
+        $item = Resource::where('id', $id)
                         ->where('user_id', auth()->id())
                         ->firstOrFail();
         $item->delete();
