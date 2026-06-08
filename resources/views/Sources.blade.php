@@ -63,9 +63,11 @@
                         </td>
                         <td>
                             <a href="/Sources/edit/{{ $src->id }}" class="badge text-bg-warning text-decoration-none">Update</a>
-                            <a href="/Sources/delete/{{ $src->id }}" 
-                               onclick="return confirm('Apakah kamu yakin ingin menghapus sumber ini?')" 
-                               class="badge text-bg-danger text-decoration-none">Hapus</a>
+                            <form action="{{ route('sources.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" style="background:none; border:none; color:red; cursor:pointer; text-decoration:underline;">Hapus</button>
+                            </form>
                         </td>
                     </tr>
                     @endforeach

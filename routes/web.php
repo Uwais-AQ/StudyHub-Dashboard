@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/Sources", [SourcesController::class, "Sources"]);
     Route::get("/Sources/create", [SourcesController::class, "create"]);
     Route::post("/Sources/store", [SourcesController::class, "store"]);
-    Route::get("/Sources/delete/{id}", [SourcesController::class, "destroy"]);
+    Route::delete("/Sources/{id}", [SourcesController::class, "destroy"])->name('sources.destroy');
     Route::get("/Sources/edit/{id}", [SourcesController::class, "edit"]);
     Route::put("/Sources/update/{id}", [SourcesController::class, "update"]);
 
