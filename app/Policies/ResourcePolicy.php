@@ -42,7 +42,7 @@ class ResourcePolicy
     /**
      * Tentukan apakah user boleh menghapus resource.
      */
-    public function delete(User $user, Resource $user)
+    public function delete(User $user, Resource $resource)
     {
         return $user->id === $resource->user_id;
     }
