@@ -1,5 +1,11 @@
 @extends("layouts/navigasi")
 @section("container")
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 
 <section class="section">
     <div class="section-header me-7">
@@ -63,10 +69,10 @@
                         </td>
                         <td>
                             <a href="/Sources/edit/{{ $src->id }}" class="badge text-bg-warning text-decoration-none">Update</a>
-                            <form action="{{ route('sources.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');" style="display: inline;">
+                            <form action="{{ route('sources.destroy', $src->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" style="background:none; border:none; color:red; cursor:pointer; text-decoration:underline;">Hapus</button>
+                                <button type="submit" class="badge text-bg-danger text-decoration-none">Hapus</button>
                             </form>
                         </td>
                     </tr>
