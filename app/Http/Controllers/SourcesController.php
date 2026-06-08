@@ -29,6 +29,8 @@ class SourcesController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Resource::class);
+
         return view("sources_create");
     }
 
@@ -37,6 +39,8 @@ class SourcesController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Resource::class);
+
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'deskripsi' => 'required|string|max:1000',
@@ -58,9 +62,8 @@ class SourcesController extends Controller
      */
     public function edit($id)
     {
-        $resource = Resource::where('id', $id)
-                            ->where('user_id', auth()->id())
-                            ->firstOrFail();
+        $resource = Resource::findOrFail($id);
+        $this->authorize('update', $resource);
 
         return view("sources_edit", ['resource' => $resource]);
     }
@@ -70,17 +73,16 @@ class SourcesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $resource = Resource::findOrFail($id);
+        $this->authorize('update', $resource);
+
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'deskripsi' => 'required|string|max:1000',
             'sumber' => 'required|url|max:500',
         ]);
 
-        $item = Resource::where('id', $id)
-                        ->where('user_id', auth()->id())
-                        ->firstOrFail();
-
-        $item->update([
+        $resource->update([
             'nama' => $validated['nama'],
             'deskripsi' => $validated['deskripsi'],
             'sumber' => $validated['sumber'],
@@ -94,10 +96,10 @@ class SourcesController extends Controller
      */
     public function destroy($id)
     {
-        $item = Resource::where('id', $id)
-                        ->where('user_id', auth()->id())
-                        ->firstOrFail();
-        $item->delete();
+        $resource = Resource::findOrFail($id);
+        $this->authorize('delete', $resource);
+
+        $resource->delete();
 
         return redirect('/Sources')->with('success', 'Data berhasil dihapus!');
     }

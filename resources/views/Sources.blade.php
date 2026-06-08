@@ -68,12 +68,16 @@
                             target="_blank" class="badge text-bg-success text-decoration-none">Kunjungi</a>
                         </td>
                         <td>
-                            <a href="/Sources/edit/{{ $src->id }}" class="badge text-bg-warning text-decoration-none">Update</a>
-                            <form action="{{ route('sources.destroy', $src->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="badge text-bg-danger text-decoration-none">Hapus</button>
-                            </form>
+                            @can('update', $src)
+                                <a href="/Sources/edit/{{ $src->id }}" class="badge text-bg-warning text-decoration-none">Update</a>
+                            @endcan
+                            @can('delete', $src)
+                                <form action="{{ route('sources.destroy', $src->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" style="background:none; border:none; color:red; cursor:pointer; text-decoration:underline;">Hapus</button>
+                                </form>
+                            @endcan
                         </td>
                     </tr>
                     @endforeach
