@@ -75,7 +75,7 @@
                                 <form action="{{ route('sources.destroy', $src->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" style="background:none; border:none; color:red; cursor:pointer; text-decoration:underline;">Hapus</button>
+                                    <button type="submit" class="badge text-bg-danger text-decoration-none">Hapus</button>
                                 </form>
                             @endcan
                         </td>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Resource;
+use App\Http\Requests\StoreResourceRequest;
+use App\Http\Requests\UpdateResourceRequest;
 
 class SourcesController extends Controller
 {
@@ -37,15 +39,11 @@ class SourcesController extends Controller
     /**
      * Menyimpan data baru ke database.
      */
-    public function store(Request $request)
+    public function store(StoreResourceRequest $request)
     {
         $this->authorize('create', Resource::class);
 
-        $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'deskripsi' => 'required|string|max:1000',
-            'sumber' => 'required|url|max:500',
-        ]);
+        $validated = $request->validated();
 
         Resource::create([
             'user_id'   => auth()->id(),
@@ -71,16 +69,12 @@ class SourcesController extends Controller
     /**
      * Memperbarui data yang sudah ada.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateResourceRequest $request, $id)
     {
         $resource = Resource::findOrFail($id);
         $this->authorize('update', $resource);
 
-        $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'deskripsi' => 'required|string|max:1000',
-            'sumber' => 'required|url|max:500',
-        ]);
+        $validated = $request->validated();
 
         $resource->update([
             'nama' => $validated['nama'],
