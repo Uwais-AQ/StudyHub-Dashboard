@@ -85,7 +85,7 @@
             </table>
             <a href="/Sources/create" class="btn btn-secondary btn-sm">➕ Tambah Sumber</a>
             <div class="d-flex justify-content-center mt-3">
-                {{ $resources->links() }}
+                {{ $resources->links('vendor.pagination.custom') }}
             </div>
         </div>
     </div>
