@@ -29,7 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/status/update', [StatusController::class, 'update'])->name('status.update');
 
     // Fitur CRUD My Sources
-    Route::get("/Sources", [SourcesController::class, "Sources"]);
+    Route::get("/Sources", [SourcesController::class, "Sources"])->name('sources.index');
     Route::get("/Sources/create", [SourcesController::class, "create"]);
     Route::post("/Sources/store", [SourcesController::class, "store"]);
     Route::delete("/Sources/{id}", [SourcesController::class, "destroy"])->name('sources.destroy');

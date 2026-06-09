@@ -41,8 +41,8 @@
                 <div>
                     <span class="text-muted small me-2">Urutkan Nama:</span>
                     <div class="btn-group" role="group">
-                        <a href="/Sources?sort=asc" class="btn btn-sm {{ $currentSort == 'asc' ? 'btn-dark' : 'btn-outline-dark' }}">asc</a>
-                        <a href="/Sources?sort=desc" class="btn btn-sm {{ $currentSort == 'desc' ? 'btn-dark' : 'btn-outline-dark' }}">desc</a>
+                        <a href="{{ route('sources.index', ['sort' => 'asc']) }}" class="btn btn-sm {{ $currentSort == 'asc' ? 'btn-dark' : 'btn-outline-dark' }}">asc</a>
+                        <a href="{{ route('sources.index', ['sort' => 'desc']) }}" class="btn btn-sm {{ $currentSort == 'desc' ? 'btn-dark' : 'btn-outline-dark' }}">desc</a>
                     </div>
                 </div>
             </div>
@@ -84,6 +84,9 @@
                 </tbody>
             </table>
             <a href="/Sources/create" class="btn btn-secondary btn-sm">➕ Tambah Sumber</a>
+            <div class="d-flex justify-content-center mt-3">
+                {{ $resources->links() }}
+            </div>
         </div>
     </div>
 </section>

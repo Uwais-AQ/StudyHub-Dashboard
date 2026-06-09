@@ -18,7 +18,7 @@ class SourcesController extends Controller
 
         $sources = Resource::where('user_id', auth()->id())
                            ->orderBy('nama', $sortOrder)
-                           ->get();
+                           ->paginate(10);
 
         return view("sources", [
             'resources' => $sources,
